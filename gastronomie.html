@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TN TOUNSIA - Gastronomie Tunisienne</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Police d'écriture Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Icônes FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">TN <span>TOUNSIA</span></div>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="gouvernorats.html">Gouvernorats</a></li>
+                <li><a href="patrimoine.html">Patrimoine</a></li>
+                <li><a href="gastronomie.html" class="active">Gastronomie</a></li>
+                <li><a href="quiz.html">Quiz</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="questionnaire.html">Questionnaire</a></li>
+                <li><a href="funpage.html">Fun Page</a></li>
+                <li><a href="apropos.html">À propos</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Contenu Principal -->
+    <section class="section-padding">
+        <div class="container">
+            
+            <!-- Section Intro (2 colonnes) -->
+            <div class="gastronomy-intro">
+                <div class="intro-text">
+                    <h1>Gastronomie Tunisienne</h1>
+                    <div class="underline-left"></div>
+                    
+                    <p>La cuisine tunisienne est un carrefour de saveurs méditerranéennes, mêlant influences berbères, arabes, turques et françaises. Épicée mais subtile, colorée et généreuse, elle reflète l'hospitalité et la convivialité du peuple tunisien.</p>
+                    
+                    <p>Les ingrédients de base — <strong>huile d'olive, harissa, cumin, coriandre et tomates</strong> — composent une palette culinaire riche et variée, où chaque région apporte sa touche unique.</p>
+                    
+                    <h3>Épices essentielles</h3>
+                    <ul class="spice-list">
+                        <li><strong>Harissa</strong> – Pâte de piments rouges, incontournable</li>
+                        <li><strong>Tabil</strong> – Mélange d'épices à base de coriandre</li>
+                        <li><strong>Carvi</strong> – Utilisé dans les soupes et ragoûts</li>
+                        <li><strong>Ras el hanout</strong> – Mélange aromatique complexe</li>
+                    </ul>
+                </div>
+
+                <div class="intro-image">
+                    <img src="coucous.jpg"Couscous tunisien">
+                </div>
+            </div>
+
+            <!-- Section Plats Emblématiques (Grille) -->
+            <div class="dishes-section">
+                <h2>Plats emblématiques</h2>
+                
+                <div class="dishes-grid">
+                    <!-- Carte 1 -->
+                    <div class="dish-card">
+                        <span class="dish-badge">Plat principal</span>
+                        <h4>Couscous tunisien</h4>
+                        <p>Plat national par excellence, le couscous tunisien se distingue par sa sauce rouge relevée au harissa, accompagné de légumes variés et de viande d'agneau ou de poulet.</p>
+                    </div>
+
+                    <!-- Carte 2 -->
+                    <div class="dish-card">
+                        <span class="dish-badge">Entrée</span>
+                        <h4>Brik à l'œuf</h4>
+                        <p>Croustillant et doré, le brik est une feuille de malsouka frite, garnie d'un œuf, de thon, de câpres et de persil. C'est l'entrée incontournable du Ramadan.</p>
+                    </div>
+
+                    <!-- Carte 3 -->
+                    <div class="dish-card">
+                        <span class="dish-badge">Soupe</span>
+                        <h4>Lablabi</h4>
+                        <p>Soupe populaire à base de pois chiches, parfumée au cumin et à l'ail, servie avec du pain rassis, de l'huile d'olive et de la harissa. Un plat d'hiver réconfortant.</p>
+                    </div>
+
+                    <!-- Carte 4 -->
+                    <div class="dish-card">
+                        <span class="dish-badge">Plat principal</span>
+                        <h4>Ojja</h4>
+                        <p>Ragoût de tomates épicé aux œufs pochés, souvent agrémenté de merguez ou de crevettes. Un plat savoureux et coloré typique de la cuisine tunisienne.</p>
+                    </div>
+
+                    <!-- Carte 5 -->
+                    <div class="dish-card">
+                        <span class="dish-badge">Dessert</span>
+                        <h4>Makroudh</h4>
+                        <p>Pâtisserie traditionnelle à base de semoule et de pâte de dattes, frite puis trempée dans un sirop de miel. Une douceur incontournable de Kairouan.</p>
+                    </div>
+
+                    <!-- Carte 6 -->
+                    <div class="dish-card">
+                        <span class="dish-badge">Boisson</span>
+                        <h4>Thé à la menthe</h4>
+                        <p>Boisson emblématique, le thé vert à la menthe et aux pignons de pin est servi dans de petits verres décorés, symbole d'hospitalité tunisienne.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section Formulaire de suggestion -->
+            <div class="recipe-form-section">
+                <div class="recipe-form-box">
+                    <div class="form-header-title">
+                        <i class="fas fa-book-open"></i>
+                        <h3>Suggérer une recette</h3>
+                    </div>
+
+                    <form action="#">
+                        <!-- Nom du plat -->
+                        <div class="form-group">
+                            <label for="recipe-name">Nom du plat</label>
+                            <input type="text" id="recipe-name" placeholder="Ex: Tajine tunisien">
+                        </div>
+
+                        <!-- Catégorie -->
+                        <div class="form-group">
+                            <label for="recipe-cat">Catégorie</label>
+                            <select id="recipe-cat">
+                                <option value="entree">Entrée</option>
+                                <option value="plat">Plat principal</option>
+                                <option value="dessert">Dessert</option>
+                                <option value="boisson">Boisson</option>
+                            </select>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="form-group">
+                            <label for="recipe-desc">Description</label>
+                            <textarea id="recipe-desc" rows="4" placeholder="Décrivez la recette..."></textarea>
+                        </div>
+
+                        <!-- Difficulté (Radio buttons) -->
+                        <div class="form-group">
+                            <label>Niveau de difficulté</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="difficulty" value="facile" checked> Facile
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="difficulty" value="moyen"> Moyen
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="difficulty" value="difficile"> Difficile
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Boutons -->
+                        <div class="form-buttons">
+                            <button type="submit" class="btn btn-red">Envoyer</button>
+                            <button type="reset" class="btn btn-gray">Effacer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-left">
+                <div class="logo white">TN <span>TOUNSIA</span></div>
+                <p class="tagline">Découvrez la beauté et la richesse de la Tunisie</p>
+            </div>
+            <div class="footer-right">
+                <ul class="footer-links">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="gouvernorats.html">Gouvernorats</a></li>
+                    <li><a href="patrimoine.html">Patrimoine</a></li>
+                    <li><a href="gastronomie.html">Gastronomie</a></li>
+                    <li><a href="quiz.html">Quiz</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                <li><a href="questionnaire.html">Questionnaire</a></li>
+                <li><a href="funpage.html">Fun Page</a></li>
+                    <li><a href="apropos.html">À propos</a></li>
+                </ul>
+                <p class="contact-email">contact@tounsia.tn</p>
+                <p class="copyright">© 2026 TOUNSIA - Tous droits réservés</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

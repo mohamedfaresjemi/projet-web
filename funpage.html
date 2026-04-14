@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<!-- funpage.html — TN TOUNSIA | Page Interactive & Ludique -->
+<!-- Membres : [Votre équipe] -->
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TN TOUNSIA - Fun Page</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ---- Mise en page générale ---- */
+        .fun-wrapper { max-width: 860px; margin: 0 auto; }
+        .fun-header  { text-align: center; margin-bottom: 2.5rem; }
+
+        /* ---- Jeu : Lettres mélangées ---- */
+        .game-card {
+            background: #fff; border-radius: 14px;
+            padding: 2rem; box-shadow: 0 4px 24px rgba(0,0,0,0.09);
+            margin-bottom: 2rem;
+        }
+        .game-card h2 { font-family:'Playfair Display',serif; color:#e44c4c; margin-bottom:.5rem; }
+        .game-card p  { color:#555; margin-bottom:1.5rem; }
+
+        .hint-box {
+            background:#fff8e1; border-left:4px solid #f0a500;
+            padding:.8rem 1rem; border-radius:6px; margin-bottom:1.2rem;
+            font-size:.95rem;
+        }
+
+        /* Lettres mélangées : tuiles cliquables */
+        #lettres-melangees {
+            display:flex; flex-wrap:wrap; gap:.6rem;
+            min-height:54px; margin-bottom:1rem;
+        }
+        .lettre-tuile {
+            width:46px; height:46px; display:flex; align-items:center;
+            justify-content:center; background:#e44c4c; color:#fff;
+            font-size:1.3rem; font-weight:700; border-radius:8px;
+            cursor:pointer; user-select:none;
+            transition: transform .15s, background .15s;
+            border: none;
+        }
+        .lettre-tuile:hover { transform:translateY(-3px); background:#c0392b; }
+        .lettre-tuile.used  { background:#ccc; cursor:default; transform:none; }
+
+        /* Zone de réponse */
+        #zone-reponse {
+            display:flex; flex-wrap:wrap; gap:.6rem;
+            min-height:54px; background:#f9f9f9;
+            border:2px dashed #ddd; border-radius:10px;
+            padding:.5rem; margin-bottom:1rem;
+            cursor:pointer;
+        }
+        .lettre-reponse {
+            width:46px; height:46px; display:flex; align-items:center;
+            justify-content:center; background:#27ae60; color:#fff;
+            font-size:1.3rem; font-weight:700; border-radius:8px;
+            cursor:pointer;
+        }
+        .lettre-reponse:hover { background:#1e8449; }
+
+        #feedback-jeu {
+            font-size:1.1rem; font-weight:700; min-height:1.5rem;
+            margin-bottom:.5rem;
+        }
+        .feedback-correct  { color:#27ae60; }
+        .feedback-faux     { color:#e44c4c; }
+
+        .score-bar { display:flex; gap:2rem; align-items:center; margin-top:1rem; flex-wrap:wrap; }
+        .score-box { background:#f0f0f0; border-radius:8px; padding:.5rem 1.2rem; font-weight:700; }
+
+        /* ---- Démo propagation d'événements ---- */
+        .propagation-section { margin-top:2rem; }
+        .propagation-section h3 { font-family:'Playfair Display',serif; color:#333; margin-bottom:.8rem; }
+
+        /* Trois divs imbriqués */
+        #div-externe {
+            background:#fdecea; border:2px solid #e44c4c;
+            border-radius:12px; padding:1.5rem;
+            cursor:pointer; text-align:center;
+        }
+        #div-milieu {
+            background:#fff3e0; border:2px solid #f0a500;
+            border-radius:10px; padding:1.2rem; margin-top:.8rem;
+            cursor:pointer;
+        }
+        #div-interne {
+            background:#e8f5e9; border:2px solid #27ae60;
+            border-radius:8px; padding:1rem; margin-top:.8rem;
+            cursor:pointer;
+        }
+        .div-label { font-weight:700; font-size:.9rem; margin-bottom:.5rem; }
+
+        /* Bouton stop propagation */
+        #btn-stop {
+            display:inline-block; margin-top:.8rem;
+            padding:.5rem 1.2rem; background:#e44c4c; color:#fff;
+            border:none; border-radius:6px; cursor:pointer; font-weight:700;
+        }
+
+        /* Journal des événements */
+        #event-log {
+            background:#1e1e1e; color:#a8ff78; font-family:monospace;
+            font-size:.82rem; border-radius:8px; padding:1rem;
+            max-height:180px; overflow-y:auto; margin-top:1rem;
+        }
+        #event-log p { margin:.15rem 0; }
+
+        /* Bouton vider log */
+        #btn-clear-log {
+            background:none; border:1px solid #aaa; color:#555;
+            border-radius:6px; padding:.3rem .8rem; cursor:pointer;
+            font-size:.8rem; margin-top:.4rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">TN <span>TOUNSIA</span></div>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="gouvernorats.html">Gouvernorats</a></li>
+                <li><a href="patrimoine.html">Patrimoine</a></li>
+                <li><a href="gastronomie.html">Gastronomie</a></li>
+                <li><a href="quiz.html">Quiz</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="questionnaire.html">Questionnaire</a></li>
+                <li><a href="funpage.html"class="active">Fun Page</a></li>
+                <li><a href="apropos.html">À propos</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="section-padding">
+        <div class="container fun-wrapper">
+
+            <div class="fun-header page-header">
+                <h1><i class="fas fa-gamepad" style="color:#e44c4c"></i> Fun Page</h1>
+                <div class="underline-left" style="margin:0 auto 1rem;"></div>
+                <p>Reconstituez les mots tunisiens mélangés et testez vos connaissances !</p>
+            </div>
+
+            <!-- ===== JEU : Mots Mélangés ===== -->
+            <div class="game-card">
+                <h2><i class="fas fa-puzzle-piece"></i> Jeu des Mots Mélangés</h2>
+                <p>Cliquez sur les lettres pour former le bon mot. Cliquez sur une lettre dans la zone de réponse pour la retirer.</p>
+
+                <div class="hint-box" id="hint-box">
+                    <strong><i class="fas fa-lightbulb"></i> Indice :</strong>
+                    <span id="hint-texte"></span>
+                </div>
+
+                <!-- Lettres mélangées -->
+                <div id="lettres-melangees"></div>
+
+                <!-- Zone de réponse -->
+                <p style="font-size:.85rem; color:#888; margin-bottom:.3rem;">
+                    Votre réponse (cliquez pour retirer une lettre) :
+                </p>
+                <div id="zone-reponse"></div>
+
+                <!-- Feedback -->
+                <div id="feedback-jeu"></div>
+
+                <!-- Barre de score et boutons -->
+                <div class="score-bar">
+                    <div class="score-box">
+                        <i class="fas fa-trophy" style="color:#f0a500"></i>
+                        Score : <span id="score-val">0</span>
+                    </div>
+                    <div class="score-box">
+                        Mot <span id="mot-actuel-num">1</span> / <span id="mot-total">?</span>
+                    </div>
+                    <button class="btn btn-red" onclick="verifierReponse()">
+                        <i class="fas fa-check"></i> Vérifier
+                    </button>
+                    <button class="btn btn-gray" onclick="motSuivant()">
+                        <i class="fas fa-forward"></i> Suivant
+                    </button>
+                    <button class="btn btn-gray" onclick="reinitialiserJeu()">
+                        <i class="fas fa-redo"></i> Rejouer
+                    </button>
+                </div>
+            </div>
+
+            <!--  DÉMO : PROPAGATION D'ÉVÉNEMENTS  -->
+            <div class="game-card propagation-section">
+                <h2><i class="fas fa-sitemap"></i> Propagation des Événements (Event Bubbling)</h2>
+                <p>
+                    Cliquez sur les zones imbriquées pour observer comment l'événement remonte du plus profond
+                    au plus externe (<em>event bubbling</em>). Le bouton rouge utilise
+                    <code>stopPropagation()</code> pour bloquer la propagation.
+                </p>
+
+                <!-- Trois éléments imbriqués — div externe > div milieu > div interne -->
+                <div id="div-externe">
+                    <div class="div-label" style="color:#e44c4c">
+                        🔴 DIV EXTERNE (clique ici pour propager vers l'extérieur)
+                    </div>
+
+                    <div id="div-milieu">
+                        <div class="div-label" style="color:#f0a500">
+                            🟠 DIV MILIEU
+                        </div>
+
+                        <div id="div-interne">
+                            <div class="div-label" style="color:#27ae60">
+                                🟢 DIV INTERNE — événement part d'ici
+                            </div>
+
+                            <!-- Bouton qui STOPPE la propagation -->
+                            <button id="btn-stop">
+                                <i class="fas fa-ban"></i> Stopper la propagation ici
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Journal des événements -->
+                <p style="margin-top:1rem; font-size:.85rem; color:#888;">
+                    Journal des événements reçus :
+                </p>
+                <div id="event-log">
+                    <p style="color:#888">— Cliquez sur les éléments ci-dessus pour voir la propagation —</p>
+                </div>
+                <button id="btn-clear-log">Vider le journal</button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-left">
+                <div class="logo white">TN <span>TOUNSIA</span></div>
+                <p class="tagline">Découvrez la beauté et la richesse de la Tunisie</p>
+            </div>
+            <div class="footer-right">
+                <ul class="footer-links">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="gouvernorats.html">Gouvernorats</a></li>
+                    <li><a href="patrimoine.html">Patrimoine</a></li>
+                    <li><a href="gastronomie.html">Gastronomie</a></li>
+                    <li><a href="quiz.html">Quiz</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                <li><a href="questionnaire.html">Questionnaire</a></li>
+                <li><a href="funpage.html">Fun Page</a></li>
+                    <li><a href="apropos.html">À propos</a></li>
+                </ul>
+                <p class="contact-email">contact@tounsia.tn</p>
+                <p class="copyright">© 2026 TOUNSIA - Tous droits réservés</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/funpage.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Jeu de Mémoire – TN TOUNSIA</title>
+</head>
+<body>
+
+<p id="memory-status">Tentatives : <strong id="attempts">0</strong> | Paires trouvées : <strong id="found">0</strong> / 6</p>
+<div id="memory-grid"></div>
+<button id="btn-memory-reset">Recommencer</button>
+
+<script>
+"use strict";
+
+/* ====================================================
+   JEU DE MÉMOIRE — Villes et Gouvernorats de Tunisie
+   ----------------------------------------------------
+   Règles :
+     • 12 cartes mélangées (6 paires : gouvernorat ↔ capitale)
+     • Le joueur retourne 2 cartes par tour
+     • Si elles forment une paire → elles restent visibles
+     • Sinon → elles se retournent après 1 seconde
+     • Le jeu se termine quand toutes les paires sont trouvées
+==================================================== */
+
+/* --------------------------------------------------
+   DONNÉES : 6 paires gouvernorat / capitale
+   Chaque paire partage le même pairId (index i)
+-------------------------------------------------- */
+const PAIRS = [
+    { gov: 'Tunis',    cap: 'Tunis-ville'    },
+    { gov: 'Sousse',   cap: 'Sousse-ville'   },
+    { gov: 'Sfax',     cap: 'Sfax-ville'     },
+    { gov: 'Tozeur',   cap: 'Tozeur-ville'   },
+    { gov: 'Bizerte',  cap: 'Bizerte-ville'  },
+    { gov: 'Kairouan', cap: 'Kairouan-ville' },
+];
+
+/* --------------------------------------------------
+   ÉTAT DU JEU
+   Ces variables sont réinitialisées à chaque partie
+-------------------------------------------------- */
+let flipped  = [];   // Tableau des cartes actuellement retournées (max 2)
+let matched  = 0;    // Nombre de paires correctement trouvées
+let attempts = 0;    // Nombre total de tentatives (chaque paire de retournements)
+let locked   = false; // Verrou : empêche de cliquer pendant la vérification
+
+/* --------------------------------------------------
+   FONCTION : buildMemory()
+   Construit (ou reconstruit) tout le jeu de mémoire
+   → Crée les cartes, les mélange, les insère dans le DOM
+-------------------------------------------------- */
+function buildMemory() {
+
+    /* 1. Récupérer la grille dans le DOM */
+    const grid = document.getElementById('memory-grid');
+
+    /* 2. Réinitialiser toutes les variables d'état */
+    flipped  = [];
+    matched  = 0;
+    attempts = 0;
+    locked   = false;
+
+    /* 3. Mettre à jour l'affichage des compteurs */
+    updateMemoryStatus();
+
+    /* 4. Vider la grille (utile quand on recommence) */
+    grid.innerHTML = '';
+
+    /* 5. Construire le tableau des cartes :
+          chaque paire génère 2 cartes avec le même pairId */
+    const cards = [];
+    PAIRS.forEach((p, i) => {
+        cards.push({ label: p.gov, pairId: i }); // Carte "gouvernorat"
+        cards.push({ label: p.cap, pairId: i }); // Carte "capitale"
+    });
+
+    /* 6. Mélanger les cartes avec l'algorithme Fisher-Yates
+          → garantit une distribution aléatoire uniforme */
+    for (let i = cards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [cards[i], cards[j]] = [cards[j], cards[i]]; // Échange
+    }
+
+    /* 7. Créer un élément DOM pour chaque carte et l'ajouter à la grille */
+    cards.forEach((data, idx) => {
+
+        /* Créer le div principal de la carte */
+        const card = document.createElement('div');
+        card.className       = 'mem-card';
+        card.dataset.pairId  = data.pairId; // Identifiant de la paire
+        card.dataset.idx     = idx;         // Position dans la grille
+        card.setAttribute('role', 'button');
+        card.setAttribute('aria-label', 'Carte cachée');
+        card.tabIndex = 0; // Rendre accessible au clavier
+
+        /* Structure HTML interne : recto (?) et verso (label) */
+        card.innerHTML = `
+            <div class="mem-inner">
+                <div class="mem-front">?</div>
+                <div class="mem-back">${data.label}</div>
+            </div>`;
+
+        /* ------------------------------------------------
+           addEventListener — CLIC sur une carte
+           Déclenché quand l'utilisateur clique sur la carte
+        ------------------------------------------------ */
+        card.addEventListener('click', function () {
+
+            /* Ignorer le clic si le jeu est verrouillé
+               (pendant la vérification d'une paire incorrecte) */
+            if (locked) return;
+
+            /* Ignorer si la carte est déjà retournée */
+            if (this.classList.contains('flipped')) return;
+
+            /* Ignorer si la carte fait déjà partie d'une paire trouvée */
+            if (this.classList.contains('matched')) return;
+
+            /* Retourner la carte visuellement (CSS flip) */
+            this.classList.add('flipped');
+
+            /* Ajouter la carte au tableau des cartes retournées */
+            flipped.push(this);
+
+            /* Si deux cartes sont retournées → comparer */
+            if (flipped.length === 2) {
+                attempts++;             // Incrémenter le compteur de tentatives
+                updateMemoryStatus();   // Rafraîchir l'affichage
+                compareCards();         // Lancer la comparaison
+            }
+        });
+
+        /* ------------------------------------------------
+           addEventListener — CLAVIER (Entrée ou Espace)
+           Permet d'utiliser le jeu sans souris (accessibilité)
+        ------------------------------------------------ */
+        card.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault(); // Empêche le scroll de la page avec Espace
+                this.click();       // Simuler un clic sur la carte
+            }
+        });
+
+        /* Ajouter la carte à la grille */
+        grid.appendChild(card);
+    });
+}
+
+/* --------------------------------------------------
+   FONCTION : compareCards()
+   Compare les deux cartes actuellement retournées.
+   Appelée automatiquement après chaque 2ème retournement.
+-------------------------------------------------- */
+function compareCards() {
+
+    /* Récupérer les deux cartes retournées */
+    const [cardA, cardB] = flipped;
+
+    /* Vérifier si elles appartiennent à la même paire */
+    const isPair = cardA.dataset.pairId === cardB.dataset.pairId;
+
+    if (isPair) {
+        /* ── Paire trouvée ── */
+
+        /* Marquer les cartes comme appariées (classe CSS) */
+        cardA.classList.add('matched');
+        cardB.classList.add('matched');
+
+        /* Retirer la classe "flipped" (les cartes restent visibles grâce à "matched") */
+        cardA.classList.remove('flipped');
+        cardB.classList.remove('flipped');
+
+        /* Vider le tableau des cartes retournées */
+        flipped = [];
+
+        /* Incrémenter le compteur de paires trouvées */
+        matched++;
+
+        /* Mettre à jour l'affichage */
+        updateMemoryStatus();
+
+        /* Vérifier si toutes les paires ont été trouvées → victoire */
+        if (matched === PAIRS.length) {
+            setTimeout(() => {
+                alert(`🏆 Félicitations ! Toutes les paires trouvées en ${attempts} tentatives !`);
+            }, 300);
+        }
+
+    } else {
+        /* ── Pas une paire ── */
+
+        /* Verrouiller le jeu pendant 1 seconde pour que
+           le joueur ait le temps de mémoriser les cartes */
+        locked = true;
+
+        setTimeout(() => {
+            /* Retourner les deux cartes face cachée */
+            cardA.classList.remove('flipped');
+            cardB.classList.remove('flipped');
+
+            /* Vider le tableau et déverrouiller le jeu */
+            flipped = [];
+            locked  = false;
+        }, 1000); // 1000 ms = 1 seconde
+    }
+}
+
+/* --------------------------------------------------
+   FONCTION : updateMemoryStatus()
+   Met à jour les compteurs affichés dans le DOM
+   (tentatives et paires trouvées)
+-------------------------------------------------- */
+function updateMemoryStatus() {
+    document.getElementById('attempts').textContent = attempts;
+    document.getElementById('found').textContent    = matched;
+}
+
+/* --------------------------------------------------
+   addEventListener — BOUTON "Recommencer"
+   Déclenché quand l'utilisateur clique sur le bouton reset.
+   Repart d'une nouvelle partie complète.
+-------------------------------------------------- */
+document.getElementById('btn-memory-reset').addEventListener('click', function () {
+    buildMemory(); // Reconstruire et mélanger de nouveau
+});
+
+/* --------------------------------------------------
+   DÉMARRAGE : lancer le jeu au chargement de la page
+-------------------------------------------------- */
+buildMemory();
+
+</script>
+</body>
+</html>
